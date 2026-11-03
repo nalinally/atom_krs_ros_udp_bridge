@@ -2,6 +2,7 @@ from mocube_bridge.protocol import (
     format_ack_reply,
     format_id_reply,
     format_servo_angle,
+    format_servo_angle_watchdog,
     format_servo_free,
     format_servo_free_all,
     parse_neighbor_args,
@@ -62,3 +63,9 @@ def test_format_servo_angle_rejects_out_of_range(servo, angle):
 def test_format_servo_free_rejects_out_of_range():
     with pytest.raises(ProtocolError):
         format_servo_free(6)
+
+
+def test_format_servo_angle_watchdog():
+    assert format_servo_angle_watchdog(1, -12.5) == b'KRS,setPosWd,1,-12.5'
+    with pytest.raises(ProtocolError):
+        format_servo_angle_watchdog(0, 136.0)

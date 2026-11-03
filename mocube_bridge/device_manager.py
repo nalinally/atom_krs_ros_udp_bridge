@@ -28,6 +28,7 @@ from mocube_bridge.protocol import (
     format_ack_reply,
     format_id_reply,
     format_servo_angle,
+    format_servo_angle_watchdog,
     format_servo_free,
     format_servo_free_all,
     MAX_PACKET_SIZE,
@@ -72,6 +73,8 @@ def to_modules_msg(devices, stamp):
 def to_servo_packet(command):
     """1 つの ServoCommand を KRS パケットにする. 中身が不正なら ProtocolError."""
     if command.mode == ServoCommand.POSITION:
+        if command.watchdog:
+            return format_servo_angle_watchdog(command.servo, command.angle)
         return format_servo_angle(command.servo, command.angle)
     if command.mode == ServoCommand.FREE:
         if command.servo == ServoCommand.ALL_SERVOS:

@@ -149,7 +149,7 @@ ID を変えたモジュールは、次の HEARTBEAT への `ACK,<新ID>` で自
 
    | `mode` | `servo` | パケット |
    |---|---|---|
-   | `POSITION` | 0..5 | `KRS,setPos,<servo>,<angle>` (`angle` は -135..135 [deg]、ICS の値への変換はファーム) |
+   | `POSITION` | 0..5 | `KRS,setPos,<servo>,<angle>` (`angle` は -135..135 [deg]、ICS の値への変換はファーム)。`watchdog` が true なら `KRS,setPosWd,<servo>,<angle>` |
    | `FREE` | 0..5 | `KRS,setFree,<servo>` |
    | `FREE` | `ALL_SERVOS` (-1) | `KRS,setFreeAll` |
 

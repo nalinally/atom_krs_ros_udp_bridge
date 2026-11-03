@@ -97,6 +97,14 @@ def format_servo_angle(servo: int, angle: float) -> bytes:
     return f'KRS,setPos,{servo},{angle:g}'.encode()
 
 
+def format_servo_angle_watchdog(servo: int, angle: float) -> bytes:
+    """format_servo_angle と同じだが、更新が途絶えるとファームが 0 にする."""
+    _check_servo(servo)
+    if not -SERVO_MAX_DEG <= angle <= SERVO_MAX_DEG:
+        raise ProtocolError(f'servo angle out of range: {angle}')
+    return f'KRS,setPosWd,{servo},{angle:g}'.encode()
+
+
 def format_servo_free(servo: int) -> bytes:
     """サーボを脱力する KRS パケット. 範囲外なら ProtocolError."""
     _check_servo(servo)
